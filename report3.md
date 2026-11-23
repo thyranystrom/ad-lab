@@ -32,6 +32,13 @@ and a guessable password.
 - **Starting foothold:** credentials of one ordinary user, `anna` /
   `Host2027!x`. No elevated rights.
 
+> **Note — initial access.** Kerberoasting requires one valid domain account, but
+> not an elevated one. This lab assumes that foothold for convenience; a real
+> attacker would first obtain it (typically by enumerating usernames and
+> password spraying, which need no known password — or via phishing, network
+> hash capture, AS-REP roasting, or exploiting a domain-joined service). The full
+> "unknown attacker → first account → pivot" chain is described in report #4.
+
 ## Timeline
 - Logged in from the Kali attacker VM with low-privileged domain credentials
   (`anna`).
