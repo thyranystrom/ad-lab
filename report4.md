@@ -56,8 +56,7 @@ A realistic end-to-end chain therefore looks like:
 2. **Spray common passwords** against that list. In an org with hundreds of
    accounts, at least one weak password is likely; a single hit is enough.
 3. **Alternative footholds that also need no known password:** network
-   authentication capture (LLMNR/NBT-NS poisoning with Responder → crack or
-   relay the NetNTLM hash), **AS-REP roasting** of accounts that do not require
+   authentication capture, **AS-REP roasting** of accounts that do not require
    pre-authentication (crackable with only a username), or exploiting a
    vulnerable domain-joined service for code execution (e.g. the SQLi→RCE chain
    in report #2).
