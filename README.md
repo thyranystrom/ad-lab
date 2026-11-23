@@ -41,7 +41,7 @@ rebuilt in minutes:
 
 ## Reports
 Each report is a full, reproducible write-up — environment, exact commands,
-captured log evidence, MITRE ATT&CK mapping, and remediation:
+captured log evidence, MITRE ATT&CK mapping, and remediation (done with the help of Claude):
 
 - [Incident Report #3 — Kerberoasting](./report3.md)
   *(T1087.002, T1558.003, T1110.002, T1078.002)*
