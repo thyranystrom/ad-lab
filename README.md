@@ -3,7 +3,7 @@
 This is my Active Directory security lab, built from scratch to practise the full
 cycle an attacker and a defender go through: **build a realistic domain, attack
 it, and then detect the attacks in the logs.** It extends my
-[SOC home lab](./README.md) with an identity/AD focus.
+[SOC home lab](https://github.com/thyranystrom/home-lab) with an identity/AD focus.
 
 Everything here is run in an **isolated, offline lab** (VirtualBox host-only
 network). Nothing is pointed at real systems. The deliberately weak passwords in
