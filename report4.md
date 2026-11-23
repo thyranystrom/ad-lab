@@ -33,6 +33,48 @@ found to share the weak password `Sommar2026!`.
     while other users have a different password.
 - **Starting foothold:** credentials of one ordinary user, `anna` / `Host2027!x`.
 
+## Initial access: how a real attacker reaches this point
+This lab starts from a known low-privileged account (`anna`) for convenience. A
+real attacker does **not** start with valid credentials, so it is worth being
+explicit about how that first foothold is actually obtained — the first account
+is always **guessed, captured, or stolen**, never given.
+
+An important distinction between the techniques in these reports:
+- **Password spraying needs no known password at all** — that is the whole point.
+  It requires only a list of valid **usernames** and a guess at common passwords.
+  This is how an attacker obtains the *first* account (`johan`/`lisa` in this
+  lab).
+- **BloodHound and Kerberoasting require one valid account** — but only one, with
+  no special rights. Once spraying yields a single login, the attacker pivots to
+  these techniques.
+
+A realistic end-to-end chain therefore looks like:
+1. **Enumerate usernames without credentials.** Kerberos reveals whether a
+   username exists (AS-REQ), so a username list can be built with no login (e.g.
+   `kerbrute userenum`), supplemented by email addresses, LinkedIn, or breach
+   data.
+2. **Spray common passwords** against that list. In an org with hundreds of
+   accounts, at least one weak password is likely; a single hit is enough.
+3. **Alternative footholds that also need no known password:** network
+   authentication capture (LLMNR/NBT-NS poisoning with Responder → crack or
+   relay the NetNTLM hash), **AS-REP roasting** of accounts that do not require
+   pre-authentication (crackable with only a username), or exploiting a
+   vulnerable domain-joined service for code execution (e.g. the SQLi→RCE chain
+   in report #2).
+4. **Pivot with the first account** — run BloodHound to map paths, Kerberoast to
+   reach a service account, and escalate toward Domain Admins, exactly as the
+   rest of this report shows.
+
+**Full chain:** unknown attacker → usernames → spray → first account → BloodHound
+→ Kerberoasting → Domain Admins.
+
+**Defensive relevance:** every one of these entry techniques is noisy. Username
+enumeration and spraying generate many **4768/4771** events from one source
+(captured in this report); AS-REP roasting shows **4768** with RC4; Responder
+shows anomalous name resolution on the network. Detecting "many authentication
+attempts from one source against many accounts" catches the *entry*, before the
+attacker has pivoted — which is why it is one of the most valuable rules to have.
+
 ## Timeline
 - Collected domain data from Kali with `bloodhound-python` as the low-privileged
   user `anna`.
